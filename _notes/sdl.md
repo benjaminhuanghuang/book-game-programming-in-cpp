@@ -8,12 +8,17 @@ Simple DirectMedia Layer is a cross-platform software development library design
 ## Setup on Mac
 ```
   brew insall sdl2
+  brew insall sdl2_image
+  brew insall sdl2_ttf
 
   /usr/local/Cellar/sdl2/2.0.12_1
 ```
 
 Using SDL2 with CMake(https://trenki2.github.io/blog/2017/06/02/using-sdl2-with-cmake/)
 
+Using SDL2_image with CMake(https://trenki2.github.io/blog/2017/07/04/using-sdl2-image-with-cmake/)
+
+https://github.com/tcbrindle/sdl2-cmake-scripts
 
 
 ## SDL Subsystem Flags
@@ -96,4 +101,14 @@ void Game::ProcessInput()
 			thickness // Height
 	};
 	SDL_RenderFillRect(mRenderer, &wall);
+```
+
+## Load Image to Texture
+```
+	IMG_Init(IMG_INIT_PNG)
+
+
+	SDL_Surface* IMG_Load( const char* file // Image file name);
+
+
 ```

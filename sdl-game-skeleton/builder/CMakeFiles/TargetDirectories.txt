@@ -1,0 +1,3 @@
+/Users/bhuang/ben-github/book-game-programming-in-cpp/sdl-game-skeleton/builder/CMakeFiles/rebuild_cache.dir
+/Users/bhuang/ben-github/book-game-programming-in-cpp/sdl-game-skeleton/builder/CMakeFiles/edit_cache.dir
+/Users/bhuang/ben-github/book-game-programming-in-cpp/sdl-game-skeleton/builder/CMakeFiles/sdlGame.exe.dir
