@@ -86,5 +86,10 @@ dot product of −1 means they are antiparallel
   float angle = Math::Acos(dotResult);
 ```
 
-## Calculating a Normal: Cross Product
+### Calculating a Normal: Cross Product
+```
+  A x B = - B x A
+```
+The cross product does not work with 2D vectors. However, to convert a 2D vector into a 3D vector, just add a z component of 0.
 
+Using the left-hand rule is a quick way to figure out the direction the cross product result faces
