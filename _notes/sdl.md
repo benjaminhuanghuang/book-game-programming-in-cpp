@@ -75,3 +75,25 @@ void Game::ProcessInput()
 	}
 }
 ```
+
+
+## Draw
+```
+	// Renderer for 2D drawing
+  SDL_Renderer *mRenderer;
+
+
+	// Clear back buffer
+	SDL_RenderClear(mRenderer);
+
+	// Draw walls
+	SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
+	// Draw top wall
+	SDL_Rect wall{
+			0,				// Top left x
+			0,				// Top left y
+			1024,			// Width
+			thickness // Height
+	};
+	SDL_RenderFillRect(mRenderer, &wall);
+```
