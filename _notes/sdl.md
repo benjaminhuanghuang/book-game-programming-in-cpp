@@ -2,7 +2,7 @@
 
 Simple DirectMedia Layer is a cross-platform software development library designed to provide a hardware abstraction layer for computer multimedia hardware components.
 
-
+SDL renderer supports 2D graphics, it does not support 3D.
 
 
 ## Setup on Mac
