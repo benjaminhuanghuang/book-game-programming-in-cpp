@@ -8,7 +8,7 @@
 
 #pragma once
 #include "Component.h"
-#include "Math.h"
+#include "GameMath.h"
 
 class CircleComponent : public Component
 {
