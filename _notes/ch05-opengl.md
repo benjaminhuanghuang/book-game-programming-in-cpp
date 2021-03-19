@@ -217,7 +217,30 @@ Previously, the vertex attributes only stored a 3D position in each vertex. For 
 each vertex also needs a texture coordinate that specifies the location in the texture that corresponds
 to that vertex.
 
+Because OpenGL specifies the bottom left of the texture as its origin, it also expects the image
+pixel data format as one row at a time, starting at the bottom row. 
+However, a big issue with this is that most image file formats store their data starting at the top row. 
+Not accounting for this discrepancy results in textures that appear upside down. 
 
+There are multiple ways to solve this problem:
+invert the V-component, load the image upside down, or store the image on disk upside
+down. This book simply inverts the V component—that is, assumes that the top-left corner is
+(0, 0). This corresponds to the texture coordinate system that DirectX uses.
+```
+  void Game::CreateSpriteVerts()
+  {
+    float vertices[] = {
+        -0.5f, 0.5f, 0.f, 0.f, 0.f, // top left
+        0.5f, 0.5f, 0.f, 1.f, 0.f,	// top right
+        0.5f, -0.5f, 0.f, 1.f, 1.f, // bottom right
+        -0.5f, -0.5f, 0.f, 0.f, 1.f // bottom left
+    };
 
+    unsigned int indices[] = {
+        0, 1, 2,
+        2, 3, 0};
 
+    mSpriteVerts = new VertexArray(vertices, 4, indices, 6);
+  }
 
+```
