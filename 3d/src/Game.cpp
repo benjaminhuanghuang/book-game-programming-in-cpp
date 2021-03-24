@@ -168,7 +168,7 @@ void Game::LoadData()
 	mc = new MeshComponent(a);
 	mc->SetMesh(mRenderer->GetMesh("Assets/Sphere.gpmesh"));
 
-	// Setup floor
+	// Setup floor 10 * 10
 	const float start = -1250.0f;
 	const float size = 250.0f;
 	for (int i = 0; i < 10; i++)

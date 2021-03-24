@@ -269,6 +269,9 @@ bool Renderer::LoadShaders()
 	return true;
 }
 
+/*
+	2D sprite verts
+*/
 void Renderer::CreateSpriteVerts()
 {
 	float vertices[] = {
