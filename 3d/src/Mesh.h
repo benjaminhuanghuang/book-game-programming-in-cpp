@@ -34,8 +34,6 @@ public:
 	const AABB &GetBox() const { return mBox; }
 	// Get specular power of mesh
 	float GetSpecPower() const { return mSpecPower; }
-	// Load in the mesh from binary format
-	bool LoadBinary(const std::string &fileName, class Renderer *renderer);
 
 private:
 	// AABB collision

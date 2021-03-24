@@ -13,6 +13,9 @@
 #include <string>
 #include <vector>
 #include "VertexArray.h"
+#include "Renderer.h"
+#include "PlaneActor.h"
+#include "PhysWorld.h"
 
 class Game
 {
@@ -25,8 +28,8 @@ public:
 	void AddActor(class Actor *actor);
 	void RemoveActor(class Actor *actor);
 
-	class Renderer *GetRenderer() { return mRenderer; }
-	class PhysWorld *GetPhysWorld() { return mPhysWorld; }
+	Renderer *GetRenderer() { return mRenderer; }
+	PhysWorld *GetPhysWorld() { return mPhysWorld; }
 
 	// Game-specific
 	void AddPlane(class PlaneActor *plane);

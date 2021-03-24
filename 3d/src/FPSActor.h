@@ -9,6 +9,9 @@
 #pragma once
 #include "Actor.h"
 
+/*
+	implements first-person movement
+*/
 class FPSActor : public Actor
 {
 public:

@@ -16,33 +16,11 @@
 #include <SDL_log.h>
 #include "GameMath.h"
 
-namespace
+union Vertex
 {
-	union Vertex
-	{
-		float f;
-		uint8_t b[4];
-	};
-
-	const int BinaryVersion = 1;
-	struct MeshBinHeader
-	{
-		// Signature for file type
-		char mSignature[4] = {'G', 'M', 'S', 'H'};
-		// Version
-		uint32_t mVersion = BinaryVersion;
-		// Vertex layout type
-		VertexArray::Layout mLayout = VertexArray::PosNormTex;
-		// Info about how many of each we have
-		uint32_t mNumTextures = 0;
-		uint32_t mNumVerts = 0;
-		uint32_t mNumIndices = 0;
-		// Box/radius of mesh, used for collision
-		AABB mBox{Vector3::Zero, Vector3::Zero};
-		float mRadius = 0.0f;
-		float mSpecPower = 100.0f;
-	};
-}
+	float f;
+	uint8_t b[4];
+};
 
 Mesh::Mesh() : mBox(Vector3::Infinity, Vector3::NegInfinity),
 							 mVertexArray(nullptr),
@@ -58,12 +36,6 @@ Mesh::~Mesh()
 bool Mesh::Load(const std::string &fileName, Renderer *renderer)
 {
 	mFileName = fileName;
-
-	// Try loading the binary file first
-	if (LoadBinary(fileName + ".bin", renderer))
-	{
-		return true;
-	}
 
 	std::ifstream file(fileName);
 	if (!file.is_open())
@@ -229,12 +201,6 @@ bool Mesh::Load(const std::string &fileName, Renderer *renderer)
 	mVertexArray = new VertexArray(vertices.data(), numVerts,
 																 layout, indices.data(), static_cast<unsigned>(indices.size()));
 
-	// Save the binary mesh
-	// SaveBinary(fileName + ".bin", vertices.data(),
-	// 					 numVerts, layout, indices.data(),
-	// 					 static_cast<unsigned>(indices.size()),
-	// 					 textureNames, mBox, mRadius,
-	// 					 mSpecPower);
 	return true;
 }
 
@@ -254,74 +220,4 @@ Texture *Mesh::GetTexture(size_t index)
 	{
 		return nullptr;
 	}
-}
-
-bool Mesh::LoadBinary(const std::string &fileName, Renderer *renderer)
-{
-	std::ifstream inFile(fileName, std::ios::in |
-																		 std::ios::binary);
-	if (inFile.is_open())
-	{
-		// Read in header
-		MeshBinHeader header;
-		inFile.read(reinterpret_cast<char *>(&header), sizeof(header));
-
-		// Validate the header signature and version
-		char *sig = header.mSignature;
-		if (sig[0] != 'G' || sig[1] != 'M' || sig[2] != 'S' ||
-				sig[3] != 'H' || header.mVersion != BinaryVersion)
-		{
-			return false;
-		}
-
-		// Read in the texture file names
-		for (uint32_t i = 0; i < header.mNumTextures; i++)
-		{
-			// Get the file name size
-			uint16_t nameSize = 0;
-			inFile.read(reinterpret_cast<char *>(&nameSize), sizeof(nameSize));
-
-			// Make a buffer of this size
-			char *texName = new char[nameSize];
-			// Read in the texture name
-			inFile.read(texName, nameSize);
-
-			// Get this texture
-			Texture *t = renderer->GetTexture(texName);
-			if (t == nullptr)
-			{
-				// If it's null, use the default texture
-				t = renderer->GetTexture("Assets/Default.png");
-			}
-			mTextures.emplace_back(t);
-
-			delete[] texName;
-		}
-
-		// Now read in the vertices
-		unsigned vertexSize = VertexArray::GetVertexSize(header.mLayout);
-		char *verts = new char[header.mNumVerts * vertexSize];
-		inFile.read(verts, header.mNumVerts * vertexSize);
-
-		// Now read in the indices
-		uint32_t *indices = new uint32_t[header.mNumIndices];
-		inFile.read(reinterpret_cast<char *>(indices),
-								header.mNumIndices * sizeof(uint32_t));
-
-		// Now create the vertex array
-		mVertexArray = new VertexArray(verts, header.mNumVerts,
-																	 header.mLayout, indices, header.mNumIndices);
-
-		// Cleanup memory
-		delete[] verts;
-		delete[] indices;
-
-		// Set mBox/mRadius/specular from header
-		mBox = header.mBox;
-		mRadius = header.mRadius;
-		mSpecPower = header.mSpecPower;
-
-		return true;
-	}
-	return false;
 }
