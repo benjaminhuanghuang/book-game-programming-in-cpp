@@ -8,14 +8,14 @@
       "name": "(lldb) Launch",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/demo.exe",
+      "program": "${workspaceFolder}/3d/opgl3d.exe",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}/3d",
       "environment": [],
       "externalConsole": false,
       "MIMode": "lldb",
-      "preLaunchTask": "build", // The name of the task defined above
+      //"preLaunchTask": "build", // The name of the task defined above
     }
   ]
 }
